@@ -13,18 +13,35 @@ export class EmailGenerator {
     }
     return row.trim();
   }
-  generateReportTable(report: SmokeAlarmReport): string {
+  generateReportTable(services: SmokeAlarmServiceReport[]): string[] {
     const maxPingSize = (
-      report.services.length
-        ? Math.max(...report.services.map(ser => ser.ping.toString().length))
+      services.length
+        ? Math.max(...services.map(ser => ser.ping.toString().length))
         : 0
     );
     const maxLabelSize = (
-      report.services.length
-        ? Math.max(...report.services.map(ser => ser.label.length))
+      services.length
+        ? Math.max(...services.map(ser => ser.label.length))
         : 0
     );
-    const rows = report.services.map(serv => this.generateReportRow(serv, maxPingSize, maxLabelSize));
-    return rows.join('\n');
+    const rows = services.map(serv => this.generateReportRow(serv, maxPingSize, maxLabelSize));
+    return rows;
+  }
+
+  generateEmail(report: SmokeAlarmReport): string {
+    return `
+<div style="font-size: 1.5em;">
+  <b>Smoke Alarm Report</b>
+</div>
+<div>
+  Ran at ${report.created}
+</div>
+<div>
+  Took ${report.durationMS} ms
+</div>
+<div style="font: 'monospace';">
+    ${this.generateReportTable(report.services).map(row => `<div>${row}</div>`)}
+</div>
+`.trim();
   }
 }

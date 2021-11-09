@@ -1,4 +1,4 @@
-import { SmokeAlarmReport, SmokeAlarmServiceReport } from "../../types";
+import { SmokeAlarmServiceReport } from "../../types";
 import { EmailGenerator } from "../emailGenerator";
 
 describe('EmailGenerator', () => {
@@ -16,25 +16,21 @@ describe('EmailGenerator', () => {
   });
 
   test('generateTable', () => {
-    const report: SmokeAlarmReport = {
-      created: new Date().toISOString(),
-      durationMS: 0,
-      services: [{
-        label: 'foo',
-        ok: true,
-        ping: 80,
-        messages: ['foo is out of date'],
-      }, {
-        label: 'barbaz',
-        ok: false,
-        ping: 999,
-        messages: [],
-      }],
-    };
+    const services: SmokeAlarmServiceReport[] = [{
+      label: 'foo',
+      ok: true,
+      ping: 80,
+      messages: ['foo is out of date'],
+    }, {
+      label: 'barbaz',
+      ok: false,
+      ping: 999,
+      messages: [],
+    }];
     const expected = `
 ok   /  80 / foo    / foo is out of date
 DOWN / 999 / barbaz
     `.trim();
-    expect(sut.generateReportTable(report)).toBe(expected);
+    expect(sut.generateReportTable(services).join('\n')).toBe(expected);
   });
 });
