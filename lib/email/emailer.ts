@@ -26,7 +26,7 @@ export class Emailer {
     await asyncMap(recipients, async (to) => {
       await this.service.send({
         to,
-        subject: 'Smoke Alarm Report',
+        subject: `Smoke Alarm Report ${report.created.slice(0, 10)}`,
         body,
       });
     });
