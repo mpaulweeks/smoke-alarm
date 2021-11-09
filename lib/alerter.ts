@@ -16,12 +16,17 @@ export class SmokeAlarmAlerter {
     );
   }
 
+  private isReportFailing(report: SmokeAlarmReport) {
+    return report.services.some(ser => !ser.ok);
+  }
+
   async submit(report: SmokeAlarmReport) {
     const now = new Date().getTime();
 
     const shouldSubmit = (
       (this.latestReport === undefined) ||
-      (report.services.some(ser => !ser.ok)) ||
+      (this.isReportFailing(report)) ||
+      (this.isReportFailing(this.latestReport)) ||
       (now - this.lastEmailedAt > this.positiveIntervalMS)
     );
     if (shouldSubmit) {
