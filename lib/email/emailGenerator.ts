@@ -40,9 +40,8 @@ export class EmailGenerator {
 <div>
   Took ${report.durationMS} ms
 </div>
-<br/>
 <pre>
-${this.generateReportTable(report.services).map(row => `<div>${row}</div>`)}
+${this.generateReportTable(report.services).map(row => `<div>${row}</div>`).join('')}
 </pre>
 `.trim();
   }
