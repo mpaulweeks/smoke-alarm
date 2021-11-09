@@ -21,11 +21,11 @@ export class AwsSes implements EmailService {
       }, (err, data, res) => {
         if (err) {
           // tslint:disable-next-line: no-console
-          console.log('ses err:', err);
+          // console.log('ses err:', err);
           reject(err);
         } else {
           // tslint:disable-next-line: no-console
-          console.log('ses:', data, res);
+          // console.log('ses:', data, res);
           resolve();
         }
       });

@@ -25,6 +25,6 @@ export class Gmail implements EmailService {
     };
     const result = await this.gmailTransporter.sendMail(options);
     // tslint:disable-next-line: no-console
-    console.log('gmail:', result);
+    // console.log('gmail:', result);
   }
 }
