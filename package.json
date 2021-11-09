@@ -11,8 +11,8 @@
     "prestart": "npm-run-all lint build",
     "start": "node dist/src/index.js",
     "watch": "nodemon",
-    "bg": "npx @toughlovearena/updater",
-    "kill": "forever stop dist/index.js",
+    "bg": "forever start dist/src/index.js",
+    "kill": "forever stop dist/src/index.js",
     "test": "jest --detectOpenHandles",
     "ci-test": "jest --detectOpenHandles --runInBand"
   },
