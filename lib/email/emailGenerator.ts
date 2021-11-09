@@ -33,15 +33,17 @@ export class EmailGenerator {
 <div style="font-size: 1.5em;">
   <b>Smoke Alarm Report</b>
 </div>
+<br/>
 <div>
   Ran at ${report.created}
 </div>
 <div>
   Took ${report.durationMS} ms
 </div>
-<div style="font: 'monospace';">
-    ${this.generateReportTable(report.services).map(row => `<div>${row}</div>`)}
-</div>
+<br/>
+<pre>
+${this.generateReportTable(report.services).map(row => `<div>${row}</div>`)}
+</pre>
 `.trim();
   }
 }
