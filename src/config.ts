@@ -7,6 +7,14 @@ const auth: { awsKey: string, awsSecret: string } = JSON.parse(fs.readFileSync('
 const verifyJson: SmokeAlarmVerify = resp => ({
   ok: !!resp.json,
 });
+const sumPresence: SmokeAlarmVerify = resp => {
+  const counts = resp.json ? Object.values(resp.json as Record<string, number>) : [0];
+  const sum = counts.reduce((a, b) => a + b, 0);
+  return {
+    ...verifyJson(resp),
+    message: `${sum} players online`,
+  };
+};
 
 export const config: SmokeAlarmConfig = {
   // default values
@@ -62,6 +70,9 @@ export const config: SmokeAlarmConfig = {
     endpoints: [{
       url: 'https://presence.toughlovearena.com/health',
       verify: verifyJson,
+    }, {
+      url: 'https://presence.toughlovearena.com',
+      verify: sumPresence,
     }],
   }, {
     label: 'lobbya.tla',
