@@ -6,7 +6,7 @@ export class EmailGenerator {
     const status = (service.ok ? 'ok' : 'DOWN').padEnd(4, ' ');
     const ping = service.ping.toString().padStart(pingLen, ' ');
     const label = service.label.padEnd(labelLen, ' ');
-    let row = `${status} ${ping} / ${label}`;
+    let row = `${status} / ${ping} / ${label}`;
     if (service.messages.length) {
       const messages = service.messages.join(', ');
       row += ` / ${messages}`;
