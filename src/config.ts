@@ -4,7 +4,9 @@ import { SmokeAlarmConfig, SmokeAlarmVerify } from "../lib/types";
 const oneMinute = 1000 * 60;
 
 const auth: { awsKey: string, awsSecret: string } = JSON.parse(fs.readFileSync('auth.json').toString());
-const verifyJson: SmokeAlarmVerify = resp => !!resp.json;
+const verifyJson: SmokeAlarmVerify = resp => ({
+  ok: !!resp.json,
+});
 
 export const config: SmokeAlarmConfig = {
   // default values
