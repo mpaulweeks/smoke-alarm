@@ -11,8 +11,8 @@
     "prestart": "npm-run-all lint build",
     "start": "node dist/src/index.js",
     "watch": "nodemon",
-    "bg": "npx @toughlovearena/updater",
-    "kill": "forever stop dist/index.js",
+    "bg": "forever start dist/src/index.js",
+    "kill": "forever stop dist/src/index.js",
     "test": "jest --detectOpenHandles",
     "ci-test": "jest --detectOpenHandles --runInBand"
   },
@@ -28,10 +28,12 @@
   "homepage": "https://github.com/mpaulweeks/smoke-alarm#readme",
   "dependencies": {
     "@typed/node": "^6.7.0",
+    "@types/jest": "^27.0.2",
     "@types/nodemailer": "^6.4.4",
     "@types/request": "^2.48.7",
     "cross-fetch": "^3.1.4",
     "forever": "^4.0.1",
+    "jest": "^27.3.1",
     "node-ses": "^3.0.3",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.14",

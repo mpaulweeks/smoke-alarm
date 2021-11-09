@@ -1,10 +1,11 @@
 
 export interface SmokeAlarmResult {
+  ping: number;
   status: number;
   body: string;
   json: any | null;
 }
-export type SmokeAlarmVerify = (resp: SmokeAlarmResult) => boolean;
+export type SmokeAlarmVerify = (resp: SmokeAlarmResult) => { ok: boolean, message?: string };
 export interface SmokeAlarmEndpoint {
   url: string;
   method?: 'GET' | 'POST';
@@ -25,6 +26,8 @@ export interface SmokeAlarmConfig {
 export interface SmokeAlarmServiceReport {
   label: string;
   ok: boolean;
+  ping: number;
+  messages: string[];
 }
 export interface SmokeAlarmReport {
   created: string; // date
