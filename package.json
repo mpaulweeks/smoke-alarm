@@ -1,0 +1,43 @@
+{
+  "name": "smoke-alarm",
+  "version": "1.0.0",
+  "description": "Node service to ping health check endpoints",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "clean": "rimraf dist/*",
+    "tsc": "tsc",
+    "build": "npm-run-all clean tsc",
+    "prestart": "npm-run-all lint build",
+    "start": "node dist/src/index.js",
+    "watch": "nodemon",
+    "bg": "npx @toughlovearena/updater",
+    "kill": "forever stop dist/index.js",
+    "test": "jest --detectOpenHandles",
+    "ci-test": "jest --detectOpenHandles --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mpaulweeks/smoke-alarm.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mpaulweeks/smoke-alarm/issues"
+  },
+  "homepage": "https://github.com/mpaulweeks/smoke-alarm#readme",
+  "dependencies": {
+    "@typed/node": "^6.7.0",
+    "@types/nodemailer": "^6.4.4",
+    "@types/request": "^2.48.7",
+    "forever": "^4.0.1",
+    "node-fetch": "^3.1.0",
+    "node-ses": "^3.0.3",
+    "nodemailer": "^6.7.0",
+    "nodemon": "^2.0.14",
+    "npm-run-all": "^4.1.5",
+    "ts-jest": "^27.0.7",
+    "tslint": "^6.1.3",
+    "typescript": "^4.4.4"
+  }
+}
