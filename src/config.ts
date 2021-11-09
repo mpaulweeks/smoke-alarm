@@ -1,9 +1,10 @@
 import fs from 'fs';
-import { SmokeAlarmConfig } from "../lib/types";
+import { SmokeAlarmConfig, SmokeAlarmVerify } from "../lib/types";
 
 const oneMinute = 1000 * 60;
 
 const auth: { awsKey: string, awsSecret: string } = JSON.parse(fs.readFileSync('auth.json').toString());
+const verifyJson: SmokeAlarmVerify = resp => !!resp.json;
 
 export const config: SmokeAlarmConfig = {
   // default values
@@ -25,6 +26,7 @@ export const config: SmokeAlarmConfig = {
     label: 'toughlovearena.com',
     endpoints: [{
       url: 'https://toughlovearena.com/version.json',
+      verify: verifyJson,
     }],
   }, {
     label: 'presence.tla',
