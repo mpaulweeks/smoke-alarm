@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { SmokeAlarmEndpoint, SmokeAlarmReport, SmokeAlarmResult, SmokeAlarmService, SmokeAlarmServiceReport } from "./types";
 import { asyncMap, defaultVerify } from "./util";
 
