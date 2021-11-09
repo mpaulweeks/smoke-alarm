@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch';
-import { SmokeAlarmEndpoint, SmokeAlarmReport, SmokeAlarmResult, SmokeAlarmService, SmokeAlarmServiceReport } from "./types";
+import { SmokeAlarmEndpoint, SmokeAlarmReport, SmokeAlarmResult as SmokeAlarmResponse, SmokeAlarmService, SmokeAlarmServiceReport } from "./types";
 import { asyncMap, defaultVerify } from "./util";
 
 export class SmokeAlarmReporter {
@@ -23,29 +23,38 @@ export class SmokeAlarmReporter {
   private async verifyService(service: SmokeAlarmService): Promise<SmokeAlarmServiceReport> {
     const { endpoints } = service;
     const results = await asyncMap(endpoints, async (ep) => {
-      const result = await this.ping(ep);
-      const ok = (ep.verify ?? defaultVerify)(result);
-      return ok;
+      const response = await this.ping(ep);
+      const verification = (ep.verify ?? defaultVerify)(response);
+      return {
+        response,
+        verification,
+      };
     });
-    const failures = results.filter(ok => !ok);
+    const failures = results.filter(res => !res.verification.ok);
     const serviceOK = failures.length <= (service.failuresAllowed ?? 0);
     return {
       label: service.label,
       ok: serviceOK,
+      ping: results.length ? Math.max(...results.map(res => res.response.ping)) : 0,
+      messages: results.map(res => res.verification.message).filter(str => !!str),
     };
   }
 
-  private async ping(endpoint: SmokeAlarmEndpoint): Promise<SmokeAlarmResult> {
-    const result: SmokeAlarmResult = {
+  private async ping(endpoint: SmokeAlarmEndpoint): Promise<SmokeAlarmResponse> {
+    const result: SmokeAlarmResponse = {
+      ping: 0,
       status: 500,
       body: '',
       json: null,
     };
     try {
+      const start = new Date().getTime();
       const resp = await fetch(endpoint.url, {
         method: endpoint.method ?? 'GET',
       });
+      result.ping = new Date().getTime() - start;
       result.status = resp.status;
+
       const body = await resp.text();
       result.body = body;
       result.json = JSON.parse(body);

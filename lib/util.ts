@@ -10,5 +10,7 @@ export async function asyncMap<A, B>(arr: A[], mapFunc: ((elm: A) => Promise<B>)
 }
 
 export const defaultVerify: SmokeAlarmVerify = (resp) => {
-  return resp.status < 400;
+  return {
+    ok: resp.status < 400,
+  };
 }
