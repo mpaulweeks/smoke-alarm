@@ -3,12 +3,12 @@ import { SmokeAlarmAuth, SmokeAlarmReport } from "./types";
 
 export class SmokeAlarmAlerter {
   private latestReport: SmokeAlarmReport | undefined;
-  private lastAlert = new Date().getTime();
+  private lastEmailedAt = new Date().getTime();
   private emailer: Emailer;
   constructor(
     private readonly positiveIntervalMS: number,
     private readonly recipients: string[],
-    private readonly auth: SmokeAlarmAuth,
+    auth: SmokeAlarmAuth,
   ) {
     this.emailer = new Emailer(
       auth.awsSes,
@@ -22,13 +22,13 @@ export class SmokeAlarmAlerter {
     const shouldSubmit = (
       (this.latestReport === undefined) ||
       (report.services.some(ser => !ser.ok)) ||
-      (now - this.lastAlert > this.positiveIntervalMS)
+      (now - this.lastEmailedAt > this.positiveIntervalMS)
     );
     if (shouldSubmit) {
       await this.emailer.sendReport(this.recipients, report);
+      this.lastEmailedAt = now;
     }
 
     this.latestReport = report;
-    this.lastAlert = now;
   }
 }
