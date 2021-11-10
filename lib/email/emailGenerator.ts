@@ -53,7 +53,7 @@ export class EmailGenerator {
 <div>
   Took ${report.durationMS} ms
 </div>
-<pre>
+<pre style="font-size: 0.8em;">
 ${tableHtml}
 </pre>
 `.trim();
