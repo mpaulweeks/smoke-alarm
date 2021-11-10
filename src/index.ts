@@ -1,4 +1,8 @@
-import { SmokeAlarm } from "../lib/smokeAlarm";
+import { Updater } from '@toughlovearena/updater';
 import { config } from "./config";
+import { SmokeAlarm } from "./lib/smokeAlarm";
 
-new SmokeAlarm(config).start();
+(async () => {
+  new Updater().cron();
+  new SmokeAlarm(config).start();
+})();

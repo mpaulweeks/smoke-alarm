@@ -9,11 +9,11 @@
     "tsc": "tsc",
     "build": "npm-run-all lint clean tsc",
     "prestart": "npm run build",
-    "start": "node dist/src/index.js",
+    "start": "node dist/index.js",
     "watch": "nodemon",
     "prebg": "npm run build",
-    "bg": "forever start dist/src/index.js",
-    "kill": "forever stop dist/src/index.js",
+    "bg": "npx @toughlovearena/updater",
+    "kill": "forever stop dist/index.js",
     "test": "jest --detectOpenHandles",
     "ci-test": "jest --detectOpenHandles --runInBand"
   },
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/mpaulweeks/smoke-alarm#readme",
   "dependencies": {
+    "@toughlovearena/updater": "^2.1.2",
     "@typed/node": "^6.7.0",
     "@types/jest": "^27.0.2",
     "@types/nodemailer": "^6.4.4",

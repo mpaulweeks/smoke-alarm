@@ -1,4 +1,4 @@
-import { SmokeAlarmConfig } from "../lib/types";
+import { SmokeAlarmConfig } from "./lib/types";
 
 const oneMinute = 1000 * 60;
 
