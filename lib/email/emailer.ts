@@ -22,11 +22,11 @@ export class Emailer {
   }
 
   async sendReport(recipients: string[], report: SmokeAlarmReport): Promise<void> {
-    const body = this.generator.generateEmail(report);
+    const { subject, body } = this.generator.generateEmail(report);
     await asyncMap(recipients, async (to) => {
       await this.service.send({
         to,
-        subject: `Smoke Alarm Report ${report.created.slice(0, 10)}`,
+        subject,
         body,
       });
     });

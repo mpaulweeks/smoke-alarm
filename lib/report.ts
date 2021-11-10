@@ -13,7 +13,7 @@ export class SmokeAlarmReporter {
     });
 
     const report: SmokeAlarmReport = {
-      created: start.toISOString(),
+      createdISO: start.toISOString(),
       durationMS: new Date().getTime() - start.getTime(),
       services: results,
     }

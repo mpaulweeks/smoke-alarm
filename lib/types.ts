@@ -30,7 +30,7 @@ export interface SmokeAlarmServiceReport {
   messages: string[];
 }
 export interface SmokeAlarmReport {
-  created: string; // date
+  createdISO: string; // date
   durationMS: number;
   services: SmokeAlarmServiceReport[];
 }

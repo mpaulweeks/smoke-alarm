@@ -28,21 +28,35 @@ export class EmailGenerator {
     return rows;
   }
 
-  generateEmail(report: SmokeAlarmReport): string {
-    return `
+  generateEmail(report: SmokeAlarmReport): { subject: string, body: string } {
+    const utcTime = new Date(report.createdISO);
+    const estDate = utcTime.toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+      year: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+    });
+    const estTime = utcTime.toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+    });
+    const tableHtml = this.generateReportTable(report.services).map(row => `<div>${row}</div>`).join('');
+    const isDown = report.services.some(ser => !ser.ok);
+    const subject = `Smoke Alarm ${estDate} ${isDown ? 'DOWN' : 'ok'}`;
+    const body = `
 <div style="font-size: 1.5em;">
   <b>Smoke Alarm Report</b>
 </div>
 <br/>
 <div>
-  Ran at ${report.created}
+  Ran at ${estTime}
 </div>
 <div>
   Took ${report.durationMS} ms
 </div>
 <pre>
-${this.generateReportTable(report.services).map(row => `<div>${row}</div>`).join('')}
+${tableHtml}
 </pre>
 `.trim();
+    return { subject, body };
   }
 }
