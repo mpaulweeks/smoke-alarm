@@ -1,9 +1,9 @@
-name: Unit Tests
+name: Deploy
 
 on:
   push:
-    branches-ignore:
-      - 'prod'
+    branches:
+      - 'main'
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [10.x]
 
     steps:
     - name: Checkout code
@@ -38,3 +38,6 @@ jobs:
 
     - name: Test
       run: npm run ci-test
+
+    - name: Deploy
+      run: git push -f origin HEAD:prod
