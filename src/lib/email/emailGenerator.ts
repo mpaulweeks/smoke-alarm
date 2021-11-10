@@ -44,7 +44,9 @@ export class EmailGenerator {
     const subject = `Smoke Alarm ${estDate} ${isDown ? 'DOWN' : 'ok'}`;
     const body = `
 <div style="font-size: 1.5em;">
-  <b>Smoke Alarm Report</b>
+  <b>
+    Smoke Alarm Report <span style="color: ${isDown ? 'red' : 'green'};">${isDown ? 'DOWN' : 'ok'}</span>
+  </b>
 </div>
 <br/>
 <div>
