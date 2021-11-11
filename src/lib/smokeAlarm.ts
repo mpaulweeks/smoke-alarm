@@ -17,16 +17,12 @@ export class SmokeAlarm {
   }
 
   start() {
-    this.loop();
+    clearTimeout(this.timeout);
+    this.timeout = setInterval(() => this.step(), this.config.intervalMS);
+    this.step();
   }
   stop() {
     clearTimeout(this.timeout);
-  }
-
-  private async loop() {
-    clearTimeout(this.timeout);
-    await this.step();
-    this.timeout = setTimeout(() => this.loop(), this.config.intervalMS);
   }
 
   private async step() {
