@@ -1,21 +1,21 @@
 {
   "name": "smoke-alarm",
-  "version": "1.0.0",
-  "description": "Node service to ping health check endpoints",
-  "main": "dist/index.js",
+  "version": "0.1.0",
+  "description": "Node package to ping health check endpoints and send alert emails",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
+    "test": "jest --detectOpenHandles",
+    "ci-test": "jest --detectOpenHandles --runInBand",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
-    "clean": "rimraf dist/*",
+    "clean": "rimraf lib/*",
     "tsc": "tsc",
     "build": "npm-run-all lint clean tsc",
-    "prestart": "npm run build",
-    "start": "node dist/index.js",
-    "watch": "nodemon",
-    "prebg": "npm run build",
-    "bg": "npx @toughlovearena/updater",
-    "kill": "forever stop dist/index.js",
-    "test": "jest --detectOpenHandles",
-    "ci-test": "jest --detectOpenHandles --runInBand"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test",
+    "preversion": "npm run clean",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
