@@ -9,9 +9,10 @@ describe('EmailGenerator', () => {
       label: 'foo',
       ok: true,
       ping: 999,
+      status: '???',
       messages: [],
     };
-    const expected = `ok   / 999 / foo`;
+    const expected = `??? 999ms foo`;
     expect(sut.generateReportRow(service, 3, 10)).toBe(expected);
   });
 
@@ -21,18 +22,20 @@ describe('EmailGenerator', () => {
         label: 'foo',
         ok: true,
         ping: 80,
+        status: 200,
         messages: ['foo is out of date'],
       },
       {
         label: 'barbaz',
         ok: false,
         ping: 999,
+        status: 500,
         messages: [],
       },
     ];
     const expected = `
-ok   /  80 / foo    / foo is out of date
-DOWN / 999 / barbaz
+200  80ms foo    / foo is out of date
+500 999ms barbaz
     `.trim();
     expect(sut.generateReportTable(services).join('\n')).toBe(expected);
   });

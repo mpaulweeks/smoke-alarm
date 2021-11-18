@@ -28,7 +28,7 @@ export interface SmokeAlarmConfig {
 export interface SmokeAlarmServiceReport {
   label: string;
   ping: number;
-  status: string;
+  status: number | string;
   ok: boolean;
   messages: string[];
 }

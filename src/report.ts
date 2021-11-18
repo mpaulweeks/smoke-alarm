@@ -46,7 +46,7 @@ export class SmokeAlarmReporter {
       ping: results.length
         ? Math.max(...results.map((res) => res.response.ping))
         : 0,
-      status: results.length ? results[0].response.status.toString() : '???',
+      status: results.length ? results[0].response.status : '???',
       ok: serviceOK,
       messages: results
         .map((res) => res.verification.message)
