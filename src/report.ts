@@ -1,10 +1,17 @@
 import fetch from 'cross-fetch';
-import { SmokeAlarmEndpoint, SmokeAlarmReport, SmokeAlarmResult as SmokeAlarmResponse, SmokeAlarmService, SmokeAlarmServiceReport } from "./types";
-import { asyncMap, defaultVerify } from "./util";
+import {
+  SmokeAlarmEndpoint,
+  SmokeAlarmReport,
+  SmokeAlarmResult as SmokeAlarmResponse,
+  SmokeAlarmService,
+  SmokeAlarmServiceReport,
+} from './types';
+import { asyncMap, defaultVerify } from './util';
 
 export class SmokeAlarmReporter {
-
-  async generateReport(services: SmokeAlarmService[]): Promise<SmokeAlarmReport> {
+  async generateReport(
+    services: SmokeAlarmService[],
+  ): Promise<SmokeAlarmReport> {
     const start = new Date();
 
     const results = await asyncMap(services, async (serv) => {
@@ -16,11 +23,13 @@ export class SmokeAlarmReporter {
       createdISO: start.toISOString(),
       durationMS: new Date().getTime() - start.getTime(),
       services: results,
-    }
+    };
     return report;
   }
 
-  private async verifyService(service: SmokeAlarmService): Promise<SmokeAlarmServiceReport> {
+  private async verifyService(
+    service: SmokeAlarmService,
+  ): Promise<SmokeAlarmServiceReport> {
     const { endpoints } = service;
     const results = await asyncMap(endpoints, async (ep) => {
       const response = await this.ping(ep);
@@ -30,17 +39,23 @@ export class SmokeAlarmReporter {
         verification,
       };
     });
-    const failures = results.filter(res => !res.verification.ok);
+    const failures = results.filter((res) => !res.verification.ok);
     const serviceOK = failures.length <= (service.failuresAllowed ?? 0);
     return {
       label: service.label,
       ok: serviceOK,
-      ping: results.length ? Math.max(...results.map(res => res.response.ping)) : 0,
-      messages: results.map(res => res.verification.message).filter(str => !!str),
+      ping: results.length
+        ? Math.max(...results.map((res) => res.response.ping))
+        : 0,
+      messages: results
+        .map((res) => res.verification.message)
+        .filter((str) => !!str),
     };
   }
 
-  private async ping(endpoint: SmokeAlarmEndpoint): Promise<SmokeAlarmResponse> {
+  private async ping(
+    endpoint: SmokeAlarmEndpoint,
+  ): Promise<SmokeAlarmResponse> {
     const result: SmokeAlarmResponse = {
       ping: 0,
       status: 500,

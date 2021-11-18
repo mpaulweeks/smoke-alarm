@@ -1,5 +1,5 @@
-import { SmokeAlarmServiceReport } from "../../types";
-import { EmailGenerator } from "../emailGenerator";
+import { SmokeAlarmServiceReport } from '../../types';
+import { EmailGenerator } from '../emailGenerator';
 
 describe('EmailGenerator', () => {
   const sut = new EmailGenerator();
@@ -16,17 +16,20 @@ describe('EmailGenerator', () => {
   });
 
   test('generateTable', () => {
-    const services: SmokeAlarmServiceReport[] = [{
-      label: 'foo',
-      ok: true,
-      ping: 80,
-      messages: ['foo is out of date'],
-    }, {
-      label: 'barbaz',
-      ok: false,
-      ping: 999,
-      messages: [],
-    }];
+    const services: SmokeAlarmServiceReport[] = [
+      {
+        label: 'foo',
+        ok: true,
+        ping: 80,
+        messages: ['foo is out of date'],
+      },
+      {
+        label: 'barbaz',
+        ok: false,
+        ping: 999,
+        messages: [],
+      },
+    ];
     const expected = `
 ok   /  80 / foo    / foo is out of date
 DOWN / 999 / barbaz

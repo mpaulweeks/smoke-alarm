@@ -12,7 +12,7 @@ export class Gmail implements EmailService {
       auth: {
         user: config.user,
         pass: config.pass,
-      }
+      },
     });
   }
 

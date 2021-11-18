@@ -13,22 +13,25 @@ export class AwsSes implements EmailService {
 
   async send(args: EmailArgs) {
     return new Promise<void>((resolve, reject) => {
-      this.sesClient.sendEmail({
-        to: args.to,
-        from: this.config.from,
-        subject: args.subject,
-        message: args.body,
-      }, (err, data, res) => {
-        if (err) {
-          // tslint:disable-next-line: no-console
-          // console.log('ses err:', err);
-          reject(err);
-        } else {
-          // tslint:disable-next-line: no-console
-          // console.log('ses:', data, res);
-          resolve();
-        }
-      });
+      this.sesClient.sendEmail(
+        {
+          to: args.to,
+          from: this.config.from,
+          subject: args.subject,
+          message: args.body,
+        },
+        (err, data, res) => {
+          if (err) {
+            // tslint:disable-next-line: no-console
+            // console.log('ses err:', err);
+            reject(err);
+          } else {
+            // tslint:disable-next-line: no-console
+            // console.log('ses:', data, res);
+            resolve();
+          }
+        },
+      );
     });
   }
 }
