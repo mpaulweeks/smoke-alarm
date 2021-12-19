@@ -15,13 +15,14 @@ export class Emailer {
     if (!awsSes && !gmail) {
       throw new Error('need to provide valid emailer config');
     }
-    this.service = (
-      (awsSes && new AwsSes(awsSes)) ||
-      (gmail && new Gmail(gmail))
-    );
+    this.service =
+      (awsSes && new AwsSes(awsSes)) || (gmail && new Gmail(gmail));
   }
 
-  async sendReport(recipients: string[], report: SmokeAlarmReport): Promise<void> {
+  async sendReport(
+    recipients: string[],
+    report: SmokeAlarmReport,
+  ): Promise<void> {
     const { subject, body } = this.generator.generateEmail(report);
     await asyncMap(recipients, async (to) => {
       await this.service.send({

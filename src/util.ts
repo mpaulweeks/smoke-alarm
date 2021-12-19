@@ -1,6 +1,9 @@
-import { SmokeAlarmVerify } from "./types";
+import { SmokeAlarmVerify } from './types';
 
-export async function asyncMap<A, B>(arr: A[], mapFunc: ((elm: A) => Promise<B>)) {
+export async function asyncMap<A, B>(
+  arr: A[],
+  mapFunc: (elm: A) => Promise<B>,
+) {
   const out = [] as B[];
   for (const elm of arr) {
     const val = await mapFunc(elm);
@@ -13,4 +16,4 @@ export const defaultVerify: SmokeAlarmVerify = (resp) => {
   return {
     ok: resp.status < 400,
   };
-}
+};
